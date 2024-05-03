@@ -25,7 +25,7 @@ function showPurchases($start_date, $end_date) {
     $seq_no = 0;
     $total = 0;
     if($start_date == "" || $end_date == "")
-      $query = "SELECT * FROM purchases";
+      $query = "SELECT * FROM invoices INNER JOIN purchases ON invoices.INVOICE_ID = purchases.VOUCHER_NUMBER";
     else
       $query = "SELECT * FROM purchases WHERE PURCHASE_DATE BETWEEN '$start_date' AND '$end_date'";
     $result = mysqli_query($con, $query);
@@ -52,7 +52,7 @@ function showPurchaseRow($seq_no, $row) {
     <td><?php echo $seq_no; ?></td>
     <td><?php echo $row['PURCHASE_DATE']; ?></td>
     <td><?php echo $row['VOUCHER_NUMBER']; ?></td>
-    <td><?php echo $row['INVOICE_ID']; ?></td>
+    <td><?php echo isset($row['INVOICE_ID']) ? $row['INVOICE_ID'] : ""; ?></td>
     <td><?php echo $row['SUPPLIER_NAME'] ?></td>
     <td><?php echo $row['TOTAL_AMOUNT']; ?></td>
   </tr>
@@ -83,7 +83,6 @@ function showSales($start_date, $end_date) {
     $result = mysqli_query($con, $query);
     while($row = mysqli_fetch_array($result)) {
       $seq_no++;
-      //print_r($row);
       showSalesRow($seq_no, $row);
       $total = $total + $row['NET_TOTAL'];
     }
@@ -104,7 +103,7 @@ function showSalesRow($seq_no, $row) {
   <tr>
     <td><?php echo $seq_no; ?></td>
     <td><?php echo $row['INVOICE_DATE']; ?></td>
-    <td><?php echo $row['INVOICE_ID']; ?></td>
+    <td><?php echo isset($row['INVOICE_ID']) ? $row['INVOICE_ID'] : ""; ?></td>
     <td><?php echo $row['NAME']; ?></td>
     <td><?php echo $row['NET_TOTAL'] ?></td>
   </tr>
