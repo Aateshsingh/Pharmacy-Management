@@ -39,6 +39,7 @@ body {
 .logo .tweak {
   color: #ff5252;
   font-weight: bold;
+  font-size: smaller; /* Adjust the font size as desired */
 }
 
 .main-menu-item {
